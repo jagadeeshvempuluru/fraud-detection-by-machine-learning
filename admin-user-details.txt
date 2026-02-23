@@ -1,0 +1,11 @@
+initial setup :
+pip install django django-crispy-forms crispy-bootstrap4
+pip install django-widget-tweaks
+pip install -r requirements.txt
+
+Username: admin
+Email address: admin@gmail.com
+Password: admin123
+
+sample user :naseer
+pwd: ^y5niZ%U+=VdG;R

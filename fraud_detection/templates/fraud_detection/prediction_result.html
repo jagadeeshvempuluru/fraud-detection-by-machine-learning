@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">Prediction Result</h2>
+        </div>
+        <div class="card-body">
+            <div class="alert {% if prediction %}alert-danger{% else %}alert-success{% endif %} mb-4">
+                <h4 class="alert-heading">
+                    {% if prediction %}
+                        Potential Fraud Detected!
+                    {% else %}
+                        Transaction Appears Legitimate
+                    {% endif %}
+                </h4>
+                <p class="mb-0">
+                    Confidence: {{ probability|floatformat:2 }}%
+                </p>
+            </div>
+            <a href="{% url 'predict' %}" class="btn btn-primary">Make Another Prediction</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

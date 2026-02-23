@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_js %}
+<script src="{% static 'js/model_status.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">Model Comparison</h2>
+            <a href="{% url 'train_model' %}" class="btn btn-light">Train New Models</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Precision</th>
+                            <th>Recall</th>
+                            <th>F1-Score</th>
+                            <th>AUC-ROC</th>
+                            <th>Accuracy</th>
+                            <th>Created At</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for model in models %}
+                        <tr>
+                            <td>{{ model.algorithm|title }}</td>
+                            <td>{% if model.precision == 0 %}N/A{% else %}{{ model.precision|floatformat:4 }}{% endif %}</td>
+                            <td>{% if model.recall == 0 %}N/A{% else %}{{ model.recall|floatformat:4 }}{% endif %}</td>
+                            <td>{% if model.f1_score == 0 %}N/A{% else %}{{ model.f1_score|floatformat:4 }}{% endif %}</td>
+                            <td>{% if model.auc_roc == 0.5 %}N/A{% else %}{{ model.auc_roc|floatformat:4 }}{% endif %}</td>
+                            <td>{% if model.accuracy == 0 %}N/A{% else %}{{ model.accuracy|floatformat:4 }}{% endif %}</td>
+                            <td>{{ model.created_at|date:"Y-m-d H:i" }}</td>
+                            <td>
+                                <button class="btn btn-sm model-status-toggle {% if model.is_active %}btn-success{% else %}btn-secondary{% endif %}" 
+                                        data-model-id="{{ model.id }}" 
+                                        data-active="{{ model.is_active|lower }}">
+                                    {% if model.is_active %}Active{% else %}Inactive{% endif %}
+                                </button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center">No models trained yet</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

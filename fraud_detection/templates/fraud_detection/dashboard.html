@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-5">Welcome, {{ user.username }}</h1>
+            <p class="lead">Your Fraud Detection Dashboard</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-3">
+                        <a href="{% url 'predict' %}" class="btn btn-outline-primary">
+                            <i class="bi bi-search"></i> New Prediction
+                        </a>
+                        <a href="{% url 'model_comparison' %}" class="btn btn-outline-info">
+                            <i class="bi bi-graph-up"></i> View Model Performance
+                        </a>
+                        {% if user.is_staff %}
+                        <a href="{% url 'train_model' %}" class="btn btn-outline-success">
+                            <i class="bi bi-gear"></i> Train New Models
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">System Status</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Active Models
+                            <span class="badge bg-primary rounded-pill">{{ active_models_count|default:0 }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Predictions
+                            <span class="badge bg-info rounded-pill">{{ total_predictions|default:0 }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Account Status
+                            {% if user.is_staff %}
+                            <span class="badge bg-success">Administrator</span>
+                            {% elif user.is_approved %}
+                            <span class="badge bg-success">Approved</span>
+                            {% else %}
+                            <span class="badge bg-warning">Pending Approval</span>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Recent Activity</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_predictions %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Result</th>
+                                    <th>Confidence</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for prediction in recent_predictions %}
+                                <tr>
+                                    <td>{{ prediction.created_at|date:"Y-m-d H:i" }}</td>
+                                    <td>
+                                        {% if prediction.is_fraud %}
+                                        <span class="text-danger">Fraudulent</span>
+                                        {% else %}
+                                        <span class="text-success">Legitimate</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ prediction.confidence|floatformat:2 }}%</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted text-center mb-0">No recent predictions available</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

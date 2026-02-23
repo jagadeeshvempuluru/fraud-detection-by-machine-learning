@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4">Fraud Detection System</h1>
+        <p class="lead">Advanced machine learning powered fraud detection for your transactions</p>
+    </div>
+
+    <div class="row g-4">
+        {% if user.is_staff %}
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Model Training</h5>
+                    <p class="card-text">Train and evaluate multiple machine learning models using your transaction data.</p>
+                    <a href="{% url 'train_model' %}" class="btn btn-primary">Train Models</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Model Comparison</h5>
+                    <p class="card-text">Compare performance metrics of different trained models.</p>
+                    <a href="{% url 'model_comparison' %}" class="btn btn-info">View Comparisons</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Transaction Prediction</h5>
+                    <p class="card-text">Check if a transaction is potentially fraudulent using our trained models.</p>
+                    <a href="{% url 'predict' %}" class="btn btn-success">Make Prediction</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">About the System</h5>
+                    <p class="card-text">
+                        Our fraud detection system uses state-of-the-art machine learning algorithms including:
+                    </p>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle-fill text-success"></i> Logistic Regression</li>
+                        <li><i class="bi bi-check-circle-fill text-success"></i> Random Forest</li>
+                        <li><i class="bi bi-check-circle-fill text-success"></i> XGBoost</li>
+                        <li><i class="bi bi-check-circle-fill text-success"></i> Neural Networks</li>
+                    </ul>
+                    <p class="card-text">
+                        The system analyzes various transaction features to detect potential fraud patterns and
+                        provides real-time predictions with probability scores.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

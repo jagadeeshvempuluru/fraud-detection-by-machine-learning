@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-warning text-white">
+                    <h4 class="mb-0">Account Pending Approval</h4>
+                </div>
+                <div class="card-body text-center">
+                    <i class="fas fa-clock fa-3x text-warning mb-3"></i>
+                    <h5 class="card-title">Thank you for registering!</h5>
+                    <p class="card-text">
+                        Your account is currently pending administrator approval. You will be able to access the dashboard once your account has been approved.
+                    </p>
+                    <p class="card-text text-muted">
+                        Please check back later or contact the administrator if you have any questions.
+                    </p>
+                    <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
